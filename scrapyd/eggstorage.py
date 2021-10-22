@@ -9,6 +9,7 @@ from zope.interface import implementer
 from .interfaces import IEggStorage
 import pkg_resources
 import pip
+import pip._internal as pip_new
 
 @implementer(IEggStorage)
 class FilesystemEggStorage(object):
@@ -26,7 +27,8 @@ class FilesystemEggStorage(object):
         try:
             d = next(pkg_resources.find_distributions(eggpath))
             for r in d.requires(): # install_requires of setup.py
-                pip.main(['install',r.__str__()])
+                pip_new.main(['install',r.__str__()])
+                
         except StopIteration:
             # raise ValueError("Unknown or corrupt egg")
             # tests can't pass
