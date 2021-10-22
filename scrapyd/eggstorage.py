@@ -25,8 +25,10 @@ class FilesystemEggStorage(object):
         with open(eggpath, 'wb') as f:
             copyfileobj(eggfile, f)
         try:
+            print('++++++++installing++++++++')
             d = next(pkg_resources.find_distributions(eggpath))
             for r in d.requires(): # install_requires of setup.py
+                print('-------install',r.__str__())
                 pip_new.main(['install',r.__str__()])
                 
         except StopIteration:
